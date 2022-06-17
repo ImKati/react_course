@@ -1,15 +1,11 @@
 import React, {useContext} from 'react';
-import {Redirect, Route} from "react-router-dom";
-import {privateRoutes, publicRoutes} from "../router";
+import {Route, Routes} from "react-router-dom";
 import {AuthContext} from "../context";
 import Loader from "./UL/Loader/loader";
-import * as PropTypes from "prop-types";
+import Login from "../pages/Login";
+import Posts from "../pages/Posts";
+import About from "../pages/About";
 
-function Navigate(props) {
-    return null;
-}
-
-Navigate.propTypes = {to: PropTypes.string};
 const AppRouter = () => {
     const {isAuth, isLoading} = useContext(AuthContext);
     console.log(isAuth)
@@ -21,29 +17,26 @@ const AppRouter = () => {
     return (
         isAuth
             ?
-            <Route>
-                {privateRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Navigate to='/posts'/>
-            </Route>
+            <Routes>
+                <Route
+                    element={<Posts />}
+                    path="/posts"
+                    key="/posts"
+                />
+                <Route
+                    element={<About />}
+                    path="/about"
+                    key="/about"
+                />
+            </Routes>
             :
-            <Route>
-                {publicRoutes.map(route =>
-                    <Route
-                        component={route.component}
-                        path={route.path}
-                        exact={route.exact}
-                        key={route.path}
-                    />
-                )}
-                <Navigate to='/login'/>
-            </Route>
+            <Routes>
+                <Route
+                    element={<Login />}
+                    path="/login"
+                    key="/login"
+                />
+            </Routes>
     );
 };
 
